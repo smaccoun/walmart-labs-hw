@@ -1,22 +1,37 @@
 import * as React from 'react';
 import './App.css';
+import {IAppState, ViewState, ViewStateC} from "./State";
+import {connect} from "react-redux";
 
-import logo from './logo.svg';
-
-class App extends React.Component {
-  public render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+interface IProps {
+    viewState: ViewState
 }
 
-export default App;
+function App(props: IProps): JSX.Element {
+    const {viewState} = props
+
+    return (
+        <div>
+            {viewPage(viewState)}
+        </div>
+    )
+}
+
+function viewPage(viewState: ViewState): JSX.Element {
+    switch(viewState.type){
+        case ViewStateC.PRODUCT_PAGE:
+            return (<div>This is a product page</div>)
+        case ViewStateC.SEARCH_PAGE:
+            return (<div>SEARCH PAGE! </div>)
+    }
+}
+
+const mapStateToProps = (state: IAppState): IProps => {
+    return {
+        viewState: state.viewState
+    }
+}
+
+const AppR = connect(mapStateToProps, {})(App)
+
+export default AppR
