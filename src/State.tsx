@@ -1,4 +1,4 @@
-import {ISearchPageState, SearchPageAction, SearchPageActionC, searchPageReducer} from "./ModelActionView/SearchPage";
+import {ISearchPageState, SearchPageAction, searchPageReducer} from "./ModelActionView/SearchPage";
 
 export type ViewState = SearchView | ProductView
 
@@ -20,25 +20,34 @@ interface ProductView {
 const INITIAL_VIEW_STATE: ViewState = {type: ViewStateC.SEARCH_PAGE, searchPageState: {curSearchTerm: null}}
 
 export enum ViewStateActionC {
-    CHANGE_VIEW_STATE = 'CHANGE_VIEW_STATE',
+
 }
 
 interface ChangeViewState {
-    type: ViewStateActionC.CHANGE_VIEW_STATE,
+    type: AppActionC.CHANGE_VIEW_STATE,
     viewState: ViewState
 }
 
 export function changeViewState(viewState: ViewState): ChangeViewState {
     return {
-        type: ViewStateActionC.CHANGE_VIEW_STATE,
+        type: AppActionC.CHANGE_VIEW_STATE,
         viewState
     }
 }
 
+export enum AppActionC {
+   SEARCH_PAGE_MSG = 'SEARCH_PAGE_MSG',
+   CHANGE_VIEW_STATE = 'CHANGE_VIEW_STATE'
+}
 
-type AppAction =
+export type AppAction =
       ChangeViewState
-    | SearchPageAction
+    | SearchPageMsg
+
+interface SearchPageMsg {
+    type: AppActionC.SEARCH_PAGE_MSG
+    pageAction: SearchPageAction
+}
 
 
 export interface IAppState {
@@ -47,11 +56,11 @@ export interface IAppState {
 
 export const rootReducer = (state: IAppState = {viewState: INITIAL_VIEW_STATE}, action: AppAction): IAppState => {
     switch (action.type) {
-        case ViewStateActionC.CHANGE_VIEW_STATE:
+        case AppActionC.CHANGE_VIEW_STATE:
             return {...state, viewState: action.viewState}
-        case SearchPageActionC.SET_SEARCH_TERM:
+        case AppActionC.SEARCH_PAGE_MSG:
             if(state.viewState.type == ViewStateC.SEARCH_PAGE){
-                const updatedSearchPageState = searchPageReducer(state.viewState.searchPageState, action)
+                const updatedSearchPageState = searchPageReducer(state.viewState.searchPageState, action.pageAction)
                 const updatedViewState: ViewState = {type: state.viewState.type, searchPageState: updatedSearchPageState}
                 return {...state, viewState: updatedViewState}
             }else{
