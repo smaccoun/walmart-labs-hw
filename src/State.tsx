@@ -1,4 +1,4 @@
-import {combineReducers} from "redux";
+import {ISearchPageState, SearchPageAction, SearchPageActionC, searchPageReducer} from "./ModelActionView/SearchPage";
 
 export type ViewState = SearchView | ProductView
 
@@ -9,6 +9,7 @@ export enum ViewStateC {
 
 interface SearchView {
     type: ViewStateC.SEARCH_PAGE
+    searchPageState: ISearchPageState
 }
 
 interface ProductView {
@@ -16,7 +17,7 @@ interface ProductView {
 }
 
 
-const INITIAL_VIEW_STATE: ViewState = {type: ViewStateC.SEARCH_PAGE}
+const INITIAL_VIEW_STATE: ViewState = {type: ViewStateC.SEARCH_PAGE, searchPageState: {curSearchTerm: null}}
 
 export enum ViewStateActionC {
     CHANGE_VIEW_STATE = 'CHANGE_VIEW_STATE',
@@ -35,20 +36,31 @@ export function changeViewState(viewState: ViewState): ChangeViewState {
 }
 
 
-const viewStateReducer = (state: ViewState = INITIAL_VIEW_STATE, action: ChangeViewState): ViewState => {
-    switch (action.type) {
-        case ViewStateActionC.CHANGE_VIEW_STATE:
-            return action.viewState
-        default:
-            return INITIAL_VIEW_STATE
-    }
-};
+type AppAction =
+      ChangeViewState
+    | SearchPageAction
 
 
 export interface IAppState {
     viewState: ViewState
 }
 
-export const rootReducer = combineReducers<IAppState>({
-    viewState: viewStateReducer
-})
+export const rootReducer = (state: IAppState = {viewState: INITIAL_VIEW_STATE}, action: AppAction): IAppState => {
+    switch (action.type) {
+        case ViewStateActionC.CHANGE_VIEW_STATE:
+            return {...state, viewState: action.viewState}
+        case SearchPageActionC.SET_SEARCH_TERM:
+            if(state.viewState.type == ViewStateC.SEARCH_PAGE){
+                const updatedSearchPageState = searchPageReducer(state.viewState.searchPageState, action)
+                const updatedViewState: ViewState = {type: state.viewState.type, searchPageState: updatedSearchPageState}
+                return {...state, viewState: updatedViewState}
+            }else{
+                console.error('IMPOSSIBLE MSG STATE', {state, action})
+            }
+        default:
+            return {viewState: INITIAL_VIEW_STATE}
+    }
+};
+
+
+

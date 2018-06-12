@@ -2,6 +2,7 @@ import * as React from 'react';
 import './App.css';
 import {IAppState, ViewState, ViewStateC} from "./State";
 import {connect} from "react-redux";
+import {SearchPage} from "./ModelActionView/SearchPage";
 
 interface IProps {
     viewState: ViewState
@@ -19,10 +20,10 @@ function App(props: IProps): JSX.Element {
 
 function viewPage(viewState: ViewState): JSX.Element {
     switch(viewState.type){
-        case ViewStateC.PRODUCT_PAGE:
-            return (<div>This is a product page</div>)
         case ViewStateC.SEARCH_PAGE:
-            return (<div>SEARCH PAGE! </div>)
+            return (<SearchPage />)
+        case ViewStateC.PRODUCT_PAGE:
+            return (<div>PRODUCT PAGE </div>)
     }
 }
 
