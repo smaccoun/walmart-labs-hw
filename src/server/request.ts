@@ -30,7 +30,7 @@ interface IRemoteFuture<a> {
     fork: (onStateChange: ((s: WebData<a>) => void)) => Promise<string>
 }
 
-export function remoteRequest<a>(url: string, requestHttpInfo: REQUEST_HTTP): IRemoteFuture<any> {
+export function remoteRequestEffect<a>(url: string, requestHttpInfo: REQUEST_HTTP): IRemoteFuture<any> {
     let resultState: WebData<any> = {type: RemoteDataC.NOT_ASKED}
 
     function fork(onStateChange: ((s: WebData<a>) => void)): Promise<string>{
@@ -63,6 +63,28 @@ export function remoteRequest<a>(url: string, requestHttpInfo: REQUEST_HTTP): IR
 
 }
 
+export function remoteRequest<a>(url: string, requestHttpInfo: REQUEST_HTTP): Promise<WebData<any>> {
+        return new Promise((resolve, reject) => {
+            fetch(url, requestHttpInfo)
+                .then(response => {
+                    const {status} = response
+                    if (status == 200) {
+                        response.json()
+                            .then(body => {
+                                resolve({type: RemoteDataC.SUCCESS, data: body})
+                            })
+                    }else{
+                        const error: RemoteError = mapRemoteError(url, status)
+                        resolve(webDataError(error))
+                    }
+                })
+                .catch(error => {
+                    resolve(webDataError({type: RemoteErrorC.NETWORK_ERROR}))
+                })
+        })
+
+}
+
 export interface IRequestState<a> {
     getValue : () => WebData<a>;
     set: (r: WebData<a>) => WebData<a>
@@ -72,6 +94,7 @@ export function requestState(): IRequestState<any> {
     let value: WebData<any> = {type: RemoteDataC.NOT_ASKED}
     function set(r: WebData<any>){
         value = r
+        console.log('VALUE! ', value)
         return value
     }
 
@@ -83,25 +106,6 @@ export function requestState(): IRequestState<any> {
     return {getValue, set}
 }
 
-export function remoteFetch<a>(url: string, requestHttpInfo: REQUEST_HTTP): () => WebData<a> {
-    let value: WebData<any> = {type: RemoteDataC.LOADING}
-    const set = (r: WebData<any>) => {
-        value = r
-        console.log('WORD: ', value)
-        return value
-    }
-
-    const getValue = () => {
-        console.log('VALUE! ', value)
-        return value
-    }
-
-    remoteRequest(url, requestHttpInfo).fork(set)
-
-    return getValue 
-}
-
-
 function mapHttpStatuses<a>(url: string, response: Response, callback: ((w: WebData<any>) => any)): void {
     const {status} = response
     if (status == 200) {
@@ -111,13 +115,27 @@ function mapHttpStatuses<a>(url: string, response: Response, callback: ((w: WebD
             })
     }
     else {
-        const errorResponse: HttpResponse = {url, status: {code: status, message: STATUS_ERROR_MSG_MAP[status]}}
-        const error: RemoteError = {type: RemoteErrorC.BAD_STATUS, response: errorResponse}
-        callback({type: RemoteDataC.FAILURE, error})
+        const error: RemoteError = mapRemoteError(url, status)
+        callback(webDataError(error))
     }
 }
 
-const STATUS_ERROR_MSG_MAP = 
-  {404: 'Invalid URL'
-  ,500: 'Something went wrong'
-  }
+function webDataError(error: RemoteError): WebData<any> {
+    return {type: RemoteDataC.FAILURE, error}
+}
+
+function mapRemoteError(url: string, status: number): RemoteError {
+    const lookupMessage: string | undefined = STATUS_ERROR_MSG_MAP.get(status)
+    const message = lookupMessage ? lookupMessage : 'invalid status code'
+    const errorResponse: HttpResponse = {url, status: {code: status, message}}
+    const error: RemoteError = {type: RemoteErrorC.BAD_STATUS, response: errorResponse}
+    return error
+}
+
+const STATUS_ERROR_MSG_MAP: Map<number, string> =
+    new Map(
+        [[404, 'Invalid URL']
+            ,[500, 'Something went wrong']
+        ]
+    )
+

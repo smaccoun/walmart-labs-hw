@@ -38,6 +38,9 @@ interface NotAsked {
     type: RemoteDataC.NOT_ASKED
 }
 
+export const loading: WebData<any> = {type: RemoteDataC.LOADING}
+export const notAsked: WebData<any> = {type: RemoteDataC.NOT_ASKED}
+
 
 /** Response Types **/
 

@@ -1,4 +1,4 @@
-import {ISearchPageState, SearchPageAction, searchPageReducer} from "./ModelActionView/SearchPage";
+import {initialSearchPage, ISearchPageState, SearchPageAction, searchPageReducer} from "./ModelActionView/SearchPage";
 
 export type ViewState = SearchView | ProductView
 
@@ -16,8 +16,7 @@ interface ProductView {
     type: ViewStateC.PRODUCT_PAGE
 }
 
-
-const INITIAL_VIEW_STATE: ViewState = {type: ViewStateC.SEARCH_PAGE, searchPageState: {curSearchTerm: null}}
+const INITIAL_VIEW_STATE: ViewState = initialSearchPage()
 
 export interface ChangeViewState {
     type: AppActionC.CHANGE_VIEW_STATE,

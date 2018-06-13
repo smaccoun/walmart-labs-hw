@@ -1,9 +1,9 @@
 import {applyMiddleware, createStore} from "redux";
-import {ChangeViewState, changeViewState, rootReducer, ViewState, ViewStateC} from "./State";
+import {ChangeViewState, changeViewState, rootReducer, ViewStateC} from "./State";
 import thunkMiddleware from 'redux-thunk'
 import createSagaMiddleware, {SagaIterator} from "redux-saga";
 import {all, call, fork, put} from "redux-saga/effects";
-import {searchItemWatcher} from "./ModelActionView/SearchPage";
+import {initialSearchPage, searchItemWatcher} from "./ModelActionView/SearchPage";
 const { router , createBrowserHistory } = require('redux-saga-router')
 
 const history = createBrowserHistory();
@@ -15,8 +15,7 @@ const routes = {
     },
 
     '/items': function* usersSaga() {
-        const searchPage: ViewState = {type: ViewStateC.SEARCH_PAGE, searchPageState: {curSearchTerm: null}}
-        const setSearchPageView: ChangeViewState = changeViewState(searchPage)
+        const setSearchPageView: ChangeViewState = changeViewState(initialSearchPage())
         yield put(setSearchPageView);
     }
 };
