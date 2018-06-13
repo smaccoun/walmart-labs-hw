@@ -2,7 +2,8 @@ import {applyMiddleware, createStore} from "redux";
 import {ChangeViewState, changeViewState, rootReducer, ViewState, ViewStateC} from "./State";
 import thunkMiddleware from 'redux-thunk'
 import createSagaMiddleware, {SagaIterator} from "redux-saga";
-import {all, fork, put} from "redux-saga/effects";
+import {all, call, fork, put} from "redux-saga/effects";
+import {searchItemWatcher} from "./ModelActionView/SearchPage";
 const { router , createBrowserHistory } = require('redux-saga-router')
 
 const history = createBrowserHistory();
@@ -22,6 +23,7 @@ const routes = {
 
 function* rootSaga(): SagaIterator {
     yield all([
+        call(searchItemWatcher),
         fork(router, history, routes),
     ])
 }

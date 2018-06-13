@@ -1,8 +1,11 @@
 import * as React from 'react'
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
-import {AppAction, AppActionC, IAppState, ViewStateC} from "../State";
+import {AppAction, AppActionC, IAppState, searchPageMsg, ViewStateC} from "../State";
 import {ChangeEvent, FormEvent} from "react";
+import {take} from "redux-saga/effects";
+import {fetchItems} from "../server/api";
+import {requestState} from "../server/request";
 
 /* STATE */
 
@@ -47,6 +50,21 @@ export function searchPageReducer(state: ISearchPageState, action: SearchPageAct
     }
 }
 
+/* Action Effects */
+
+export function* searchItemWatcher() {
+    while(true){
+        const pageAction: AppAction = yield take(AppActionC.SEARCH_PAGE_MSG)
+        if(pageAction.type == AppActionC.SEARCH_PAGE_MSG){
+            if(pageAction.pageAction.type == SearchPageActionC.SUBMIT_SEARCH){
+                let resultState = requestState()
+                fetchItems().fork(resultState.set)
+            }
+
+        }
+    }
+}
+
 
 /* VIEW */
 
@@ -57,7 +75,6 @@ interface IProps {
 }
 
 export function SearchPageV(props: IProps): JSX.Element {
-    console.log(props.curSearchTerm)
     const {curSearchTerm, setSearchTerm} = props
     return(
         <div>
@@ -74,7 +91,6 @@ export function SearchPageV(props: IProps): JSX.Element {
 
 
 function mapStateToProps(state: IAppState) {
-    console.log(state)
     if(state.viewState.type == ViewStateC.SEARCH_PAGE){
         return {
             curSearchTerm: state.viewState.searchPageState.curSearchTerm
@@ -89,11 +105,13 @@ function mapDispatchToProps(dispatch: Dispatch<AppAction>) {
     return {
         setSearchTerm: (inputEvent: ChangeEvent<HTMLInputElement>) => {
             const term = inputEvent.currentTarget.value
-            dispatch({type: AppActionC.SEARCH_PAGE_MSG, pageAction: setSeartchTerm(term)})
+            const pageAction: SearchPageAction = setSeartchTerm(term)
+            dispatch(searchPageMsg(pageAction))
         },
         fetchSearch: (e: FormEvent<HTMLFormElement>, payload: string | null) => {
             e.preventDefault()
-            dispatch({type: AppActionC.SEARCH_PAGE_MSG, pageAction: submitSearch(payload)})
+            const pageAction: SearchPageAction = submitSearch(payload)
+            dispatch(searchPageMsg(pageAction))
         }
     }
 }

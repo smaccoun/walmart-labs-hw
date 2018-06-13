@@ -45,6 +45,13 @@ interface SearchPageMsg {
     pageAction: SearchPageAction
 }
 
+export function searchPageMsg(pageAction: SearchPageAction): AppAction{
+    return {
+        type: AppActionC.SEARCH_PAGE_MSG,
+        pageAction
+    }
+}
+
 
 export interface IAppState {
     viewState: ViewState
