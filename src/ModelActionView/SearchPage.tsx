@@ -5,7 +5,7 @@ import {AppAction, AppActionC, IAppState, searchPageMsg, ViewState, ViewStateC} 
 import {ChangeEvent, FormEvent} from "react";
 import {call, put, take} from "redux-saga/effects";
 import {fetchItems} from "../server/api";
-import {notAsked, RemoteDataC, WebData} from "../server/remote-data";
+import {loading, notAsked, RemoteDataC, WebData} from "../server/remote-data";
 
 /* STATE */
 
@@ -80,7 +80,7 @@ export function* searchItemWatcher() {
         const pageAction: AppAction = yield take(AppActionC.SEARCH_PAGE_MSG)
         if(pageAction.type == AppActionC.SEARCH_PAGE_MSG){
             if(pageAction.pageAction.type == SearchPageActionC.SUBMIT_SEARCH){
-                yield put(searchPageMsg(setSearchResults(notAsked)))
+                yield put(searchPageMsg(setSearchResults(loading)))
                 const remoteResult = yield call(fetchItems)
                 yield put(searchPageMsg(setSearchResults(remoteResult)))
             }
@@ -114,13 +114,13 @@ export function SearchPageV(props: IProps): JSX.Element {
             </form>
             <div>
                 Results:
-                {ItemResultView(searchResults)}
+                {RemoteItemsResultView(searchResults)}
             </div>
         </div>
     )
 }
 
-export function ItemResultView(itemResult: WebData<any>){
+export function RemoteItemsResultView(itemResult: WebData<any>){
     console.log('RESULT! ', itemResult)
     switch(itemResult.type){
         case RemoteDataC.NOT_ASKED:
@@ -130,8 +130,20 @@ export function ItemResultView(itemResult: WebData<any>){
         case RemoteDataC.FAILURE:
             return (<div>{itemResult.error}</div>)
         case RemoteDataC.SUCCESS:
-            return (<div>{itemResult.data[0].userId}</div>)
+            return (itemsResultView(itemResult.data))
     }
+}
+
+function itemsResultView(items: Array<any>){
+    return (items.map(item => itemResultView(item)))
+}
+
+function itemResultView(item: any){
+    return (
+        <div>{item.id}
+            {item.title}
+        </div>
+    )
 }
 
 
