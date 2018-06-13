@@ -63,6 +63,26 @@ export function remoteRequest<a>(url: string, requestHttpInfo: REQUEST_HTTP): IR
 
 }
 
+export interface IRequestState<a> {
+    getValue : () => WebData<a>;
+    set: (r: WebData<a>) => WebData<a>
+}
+
+export function requestState(): IRequestState<any> {
+    let value: WebData<any> = {type: RemoteDataC.NOT_ASKED}
+    function set(r: WebData<any>){
+        value = r
+        return value
+    }
+
+
+    function getValue() {
+        return value
+    }
+
+    return {getValue, set}
+}
+
 export function remoteFetch<a>(url: string, requestHttpInfo: REQUEST_HTTP): () => WebData<a> {
     let value: WebData<any> = {type: RemoteDataC.LOADING}
     const set = (r: WebData<any>) => {

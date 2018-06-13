@@ -1,5 +1,5 @@
 import {applyMiddleware, createStore} from "redux";
-import {ChangeViewState, changeViewState, rootReducer, ViewStateC} from "./State";
+import {ChangeViewState, changeViewState, rootReducer, ViewState, ViewStateC} from "./State";
 import thunkMiddleware from 'redux-thunk'
 import createSagaMiddleware, {SagaIterator} from "redux-saga";
 import {all, fork, put} from "redux-saga/effects";
@@ -11,6 +11,12 @@ const routes = {
     '/product': function* usersSaga() {
         const setProductView: ChangeViewState = changeViewState({type: ViewStateC.PRODUCT_PAGE})
         yield put(setProductView);
+    },
+
+    '/items': function* usersSaga() {
+        const searchPage: ViewState = {type: ViewStateC.SEARCH_PAGE, searchPageState: {curSearchTerm: null}}
+        const setSearchPageView: ChangeViewState = changeViewState(searchPage)
+        yield put(setSearchPageView);
     }
 };
 
