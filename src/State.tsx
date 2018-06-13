@@ -19,11 +19,7 @@ interface ProductView {
 
 const INITIAL_VIEW_STATE: ViewState = {type: ViewStateC.SEARCH_PAGE, searchPageState: {curSearchTerm: null}}
 
-export enum ViewStateActionC {
-
-}
-
-interface ChangeViewState {
+export interface ChangeViewState {
     type: AppActionC.CHANGE_VIEW_STATE,
     viewState: ViewState
 }
