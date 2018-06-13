@@ -7,7 +7,9 @@ export function getUrl(endpoint: string): URL {
 }
 
 
-export function fetchItems(){
-    const url = getUrl('posts')
+export function fetchItems(term: string | null){
+    const itemNumber = term ? term : ''
+    console.log(itemNumber)
+    const url = getUrl('posts/')
     return remoteRequest(url.toString(), defaultGetRequestHttp())
 }

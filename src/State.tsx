@@ -14,6 +14,7 @@ interface SearchView {
 
 interface ProductView {
     type: ViewStateC.PRODUCT_PAGE
+    product: number
 }
 
 const INITIAL_VIEW_STATE: ViewState = initialSearchPage()

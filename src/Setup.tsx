@@ -1,5 +1,5 @@
 import {applyMiddleware, createStore} from "redux";
-import {ChangeViewState, changeViewState, rootReducer, ViewStateC} from "./State";
+import {ChangeViewState, changeViewState, rootReducer, ViewState, ViewStateC} from "./State";
 import thunkMiddleware from 'redux-thunk'
 import createSagaMiddleware, {SagaIterator} from "redux-saga";
 import {all, call, fork, put} from "redux-saga/effects";
@@ -9,8 +9,10 @@ const { router , createBrowserHistory } = require('redux-saga-router')
 const history = createBrowserHistory();
 
 const routes = {
-    '/product': function* usersSaga() {
-        const setProductView: ChangeViewState = changeViewState({type: ViewStateC.PRODUCT_PAGE})
+    '/product/:id': function* usersSaga(b: {id: number}) {
+        console.log(b.id)
+        const productPage: ViewState = {type: ViewStateC.PRODUCT_PAGE, product: b.id}
+        const setProductView: ChangeViewState = changeViewState(productPage)
         yield put(setProductView);
     },
 

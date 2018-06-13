@@ -81,7 +81,7 @@ export function* searchItemWatcher() {
         if(pageAction.type == AppActionC.SEARCH_PAGE_MSG){
             if(pageAction.pageAction.type == SearchPageActionC.SUBMIT_SEARCH){
                 yield put(searchPageMsg(setSearchResults(loading)))
-                const remoteResult = yield call(fetchItems)
+                const remoteResult = yield call(fetchItems, pageAction.pageAction.payload)
                 yield put(searchPageMsg(setSearchResults(remoteResult)))
             }
 
@@ -139,8 +139,10 @@ function itemsResultView(items: Array<any>){
 }
 
 function itemResultView(item: any){
+    const linkUrl = "/product/" + item.id.toString()
     return (
-        <div>{item.id}
+        <div>
+            <a href={linkUrl}>{item.id}</a>
             {item.title}
         </div>
     )
