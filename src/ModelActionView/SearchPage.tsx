@@ -108,9 +108,11 @@ export function SearchPageV(props: IProps): JSX.Element {
     console.log('IN VIEW! ', searchResults)
     return(
         <div>
-            <form onSubmit={(e) => props.fetchSearch(e, props.curSearchTerm)}>
-                <input value={curSearchTerm ? curSearchTerm : ''} onChange={setSearchTerm}/>
-                <input type="submit" value="Submit" />
+            <form onSubmit={(e) => props.fetchSearch(e, props.curSearchTerm)} className={'columns'}>
+                <input value={curSearchTerm ? curSearchTerm : ''} onChange={setSearchTerm}
+                       className={'input '}
+                />
+                <input type="submit" value="Submit" className={'button'} />
             </form>
             <div>
                 Results:

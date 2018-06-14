@@ -17,9 +17,13 @@ function App(props: IProps): JSX.Element {
     return (
         <div>
             <header>
-                <img style={{width: '200px', height: 'auto'}} src={logo} alt="Logo" />;
+                <img style={{width: '200px', height: 'auto'}} src={logo} alt="Logo" />
             </header>
-            {viewPage(viewState)}
+            <div className={'columns is-centered'} style={{marginTop: '30px'}}>
+                <div className={'column is-four-fifths '}>
+                    {viewPage(viewState)}
+                </div>
+            </div>
         </div>
     )
 }
