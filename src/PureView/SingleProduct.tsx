@@ -1,15 +1,13 @@
 import * as React from 'react'
 import {Product} from "../State";
 
-interface IProps {
-    product: Product
-}
 
-export function SingleProductView(props: IProps): JSX.Element {
-    console.log('PRODUCT: ', props.product)
+export function SingleProductView(props: Product): JSX.Element {
+    console.log('PRODUCT: ', props)
     return(
         <div className="card">
-            PRODUCT PAGE: {props.product.itemId}
+            {props.name}
+            <img src={props.thumbnailImage} />
         </div>
         )
 }

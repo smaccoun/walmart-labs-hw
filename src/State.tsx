@@ -25,7 +25,7 @@ export interface Product{
 }
 
 export interface IProductPage {
-    featuredProduct: Product
+    featuredProduct: WebData<Product>
     recommendedProducts: WebData<Array<Product>>
 }
 

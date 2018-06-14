@@ -4,7 +4,7 @@ import {Dispatch} from "redux";
 import {AppAction, AppActionC, IAppState, searchPageMsg, ViewState, ViewStateC} from "../State";
 import {ChangeEvent, FormEvent} from "react";
 import {call, put, take} from "redux-saga/effects";
-import {fetchItems} from "../server/api";
+import {fetchSearch} from "../server/api";
 import {loading, notAsked, WebData} from "../server/remote-data";
 import {RemoteDataView} from "../PureView/RemoteDataView";
 
@@ -82,7 +82,7 @@ export function* searchItemWatcher() {
         if(pageAction.type == AppActionC.SEARCH_PAGE_MSG){
             if(pageAction.pageAction.type == SearchPageActionC.SUBMIT_SEARCH){
                 yield put(searchPageMsg(setSearchResults(loading)))
-                const remoteResult = yield call(fetchItems, pageAction.pageAction.payload)
+                const remoteResult = yield call(fetchSearch, pageAction.pageAction.payload)
                 yield put(searchPageMsg(setSearchResults(remoteResult)))
             }
 
@@ -145,7 +145,7 @@ function itemsResultView(data: ISearchItem): JSX.Element {
 }
 
 function itemResultView(item: IItem){
-    const linkUrl = "/product/" + item.itemId.toString()
+    const linkUrl = "product/" + item.itemId.toString()
     return (
         <div className={'level'}>
             <div className={'level-item'}><img src={item.thumbnailImage} /></div>

@@ -7,10 +7,12 @@ export function getUrl(endpoint: string): URL {
     return new URL(endpoint, BASE_URL)
 }
 
+export function fetchItem(itemId: number){
+    const url = getUrl('items/'+ itemId.toString() + '?' + API_KEY)
+    return remoteRequest(url.toString(), defaultGetRequestHttp)
+}
 
-export function fetchItems(term: string | null){
-    const itemNumber = term ? term : ''
-    console.log(itemNumber)
+export function fetchSearch(term: string | null){
     const url = getUrl('search?'+ ('query=' + term)  + '&format=json' + ('&' + API_KEY))
     return remoteRequest(url.toString(), defaultGetRequestHttp)
 }

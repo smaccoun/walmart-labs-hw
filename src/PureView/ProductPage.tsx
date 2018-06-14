@@ -11,7 +11,7 @@ export function ProductPage(props: {productModel: IProductPage}){
        <div>
            <div>
                <div className="title">Featured</div>
-               <SingleProductView product={productModel.featuredProduct}/>
+               {RemoteDataView(productModel.featuredProduct, SingleProductView)}
            </div>
            < RecommendationsPanel products={productModel.recommendedProducts}  />
        </div>
