@@ -4,7 +4,6 @@ import {
     changeViewState,
     IProductPage,
     Product,
-    productPageMsg,
     rootReducer,
     ViewState,
     ViewStateC
@@ -22,8 +21,14 @@ const history = createBrowserHistory();
 const routes = {
     '/product/:id': function* usersSaga(b: {id: number}) {
         console.log(b.id)
+
         const featuredProduct: Product = {itemId: b.id, name: 'fake', thumbnailImage: 'fake'}
-        yield put(productPageMsg(loading))
+        const initalProductPageState: IProductPage = {featuredProduct: featuredProduct, recommendedProducts: loading}
+        const initialView: ViewState = {type: ViewStateC.PRODUCT_PAGE, productPage: initalProductPageState}
+        yield put(changeViewState(initialView))
+        console.log("MEOOOWOWOWOOWOW")
+
+        // yield put(productPageMsg(loading))
         const recommendedProducts: WebData<Array<Product>> = yield call(fetchRecommended,b.id)
         const productPage: IProductPage = {featuredProduct, recommendedProducts}
         const productPageView: ViewState = {type: ViewStateC.PRODUCT_PAGE, productPage}
@@ -39,8 +44,8 @@ const routes = {
 
 function* rootSaga(): SagaIterator {
     yield all([
-        call(searchItemWatcher),
         fork(router, history, routes),
+        call(searchItemWatcher)
     ])
 }
 

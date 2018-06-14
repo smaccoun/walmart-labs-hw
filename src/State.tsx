@@ -64,12 +64,12 @@ interface ProductPageMsg {
     setRecommendedResult: WebData<Array<Product>>
 }
 
-export function productPageMsg(setRecommendedResult: WebData<Array<any>>): AppAction{
-    return {
-        type: AppActionC.PRODUCT_PAGE_MSG,
-        setRecommendedResult
-    }
-}
+// export function productPageMsg(setRecommendedResult: WebData<Array<any>>): AppAction{
+//     return {
+//         type: AppActionC.PRODUCT_PAGE_MSG,
+//         setRecommendedResult
+//     }
+// }
 
 export function searchPageMsg(pageAction: SearchPageAction): AppAction{
     return {
