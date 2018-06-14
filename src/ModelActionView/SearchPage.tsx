@@ -5,7 +5,8 @@ import {AppAction, AppActionC, IAppState, searchPageMsg, ViewState, ViewStateC} 
 import {ChangeEvent, FormEvent} from "react";
 import {call, put, take} from "redux-saga/effects";
 import {fetchItems} from "../server/api";
-import {loading, notAsked, RemoteDataC, WebData} from "../server/remote-data";
+import {loading, notAsked, WebData} from "../server/remote-data";
+import {RemoteDataView} from "../PureView/RemoteDataView";
 
 /* STATE */
 
@@ -121,20 +122,15 @@ export function SearchPageV(props: IProps): JSX.Element {
 }
 
 export function RemoteItemsResultView(itemResult: WebData<any>){
-    switch(itemResult.type){
-        case RemoteDataC.NOT_ASKED:
-            return (<div></div>)
-        case RemoteDataC.LOADING:
-            return (<div>Loading...</div>)
-        case RemoteDataC.FAILURE:
-            return (<div>{itemResult.error}</div>)
-        case RemoteDataC.SUCCESS:
-            return (itemsResultView(itemResult.data))
-    }
+    return(
+        <div>
+            {RemoteDataView(itemResult, itemsResultView)}
+        </div>
+    )
 }
 
-function itemsResultView(items: Array<any>){
-    return (items.map(item => itemResultView(item)))
+function itemsResultView(items: Array<any>): JSX.Element {
+    return <div>{items.map(item => itemResultView(item))}</div>
 }
 
 function itemResultView(item: any){

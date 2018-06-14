@@ -18,12 +18,12 @@ export enum RemoteDataC {
     NOT_ASKED = 'NOT_ASKED'
 }
 
-interface Success<a> {
+export interface Success<a> {
     type: RemoteDataC.SUCCESS
     data: a
 }
 
-interface Failure<e> {
+export interface Failure<e> {
     type: RemoteDataC.FAILURE
     error: e
 }
