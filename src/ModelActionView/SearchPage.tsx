@@ -106,6 +106,7 @@ interface IProps {
 
 export function SearchPageV(props: IProps): JSX.Element {
     const {curSearchTerm, setSearchTerm, searchResults} = props
+    console.log(searchResults)
     return(
         <div>
             <form onSubmit={(e) => props.fetchSearch(e, props.curSearchTerm)} className={'columns'}>
@@ -129,16 +130,24 @@ export function RemoteItemsResultView(itemResult: WebData<any>){
     )
 }
 
-function itemsResultView(items: Array<any>): JSX.Element {
-    return <div>{items.map(item => itemResultView(item))}</div>
+interface IItem{
+    itemId: number
+    name: string
+}
+
+interface ISearchItem {
+    items: Array<IItem>
+
+}
+function itemsResultView(data: ISearchItem): JSX.Element {
+    return <div>{data.items.map(item => itemResultView(item))}</div>
 }
 
 function itemResultView(item: any){
-    const linkUrl = "/product/" + item.id.toString()
+    const linkUrl = "/product/" + item.itemId.toString()
     return (
         <div>
-            <a href={linkUrl}>{item.id}</a>
-            {item.title}
+            <a href={linkUrl}>{item.name}</a>
         </div>
     )
 }

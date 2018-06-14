@@ -2,6 +2,7 @@
   "name": "walmart-labs-hw",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://smaccoun.github.io/walmart-labs-hw",
   "dependencies": {
     "@types/react-redux": "^6.0.2",
     "@types/redux": "^3.6.0",
@@ -28,7 +29,9 @@
     "start-ts": "react-scripts-ts start",
     "build-ts": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "@types/jest": "^23.0.1",

@@ -3,34 +3,33 @@ import {HttpResponse, RemoteDataC, RemoteError, RemoteErrorC, WebData} from "./r
 export interface Get_HTTP {
     method: string
     headers: any
+    mode: string
 }
 
 export interface Mutate_HTTP {
     method: string
     headers: any
     body: any
+    mode: string
 }
 
 export type REQUEST_HTTP = Get_HTTP | Mutate_HTTP
 
-export const defaultGetRequestHttp = (): Get_HTTP => (
-    {
-        method: 'GET',
-        headers: GET_HEADER()
-    }
-)
+const GET_HEADER = new Headers({
+    'Accept': 'application/json'
+})
 
-const GET_HEADER = () => {
-    return {
-        'Accept': 'application/json',
-    }
+export const defaultGetRequestHttp: RequestInit = {
+    method: 'GET',
+    headers: GET_HEADER
 }
+
 
 interface IRemoteFuture<a> {
     fork: (onStateChange: ((s: WebData<a>) => void)) => Promise<string>
 }
 
-export function remoteRequestEffect<a>(url: string, requestHttpInfo: REQUEST_HTTP): IRemoteFuture<any> {
+export function remoteRequestEffect<a>(url: string, requestHttpInfo: RequestInit): IRemoteFuture<any> {
     let resultState: WebData<any> = {type: RemoteDataC.NOT_ASKED}
 
     function fork(onStateChange: ((s: WebData<a>) => void)): Promise<string>{
@@ -42,8 +41,10 @@ export function remoteRequestEffect<a>(url: string, requestHttpInfo: REQUEST_HTT
 
         setResultState({type: RemoteDataC.LOADING})
         return new Promise((resolve, reject) => {
-            fetch(url, requestHttpInfo)
+            const request = new Request(url, requestHttpInfo)
+            fetch(request)
                 .then(response => {
+                    console.log(response)
                     mapHttpStatuses(url, response, onStateChange)
                     resolve('success')
                 })
@@ -63,9 +64,10 @@ export function remoteRequestEffect<a>(url: string, requestHttpInfo: REQUEST_HTT
 
 }
 
-export function remoteRequest<a>(url: string, requestHttpInfo: REQUEST_HTTP): Promise<WebData<any>> {
+export function remoteRequest<a>(url: string, requestHttpInfo: RequestInit): Promise<WebData<any>> {
         return new Promise((resolve, reject) => {
-            fetch(url, requestHttpInfo)
+            const request = new Request(url, requestHttpInfo)
+            fetch(request)
                 .then(response => {
                     const {status} = response
                     if (status == 200) {

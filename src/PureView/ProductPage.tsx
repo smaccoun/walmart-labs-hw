@@ -29,12 +29,14 @@ export function RecommendationsPanel(props: {products: WebData<Array<Product>>})
 }
 
 
-const NUM_RECOMMENDATIONS_TO_DISPLAY=8
+const NUM_RECOMMENDATIONS_TO_DISPLAY = 8
 
 export function RecommendationsList(products: Array<Product>): JSX.Element {
+    const showProducts = products.slice(0, NUM_RECOMMENDATIONS_TO_DISPLAY)
+    console.log(showProducts)
     return(
         <div className={'columns'}>
-            {products.slice(NUM_RECOMMENDATIONS_TO_DISPLAY).map((p, i) => {
+            {showProducts.map((p, i) => {
                 return <div key={i} className={'column'}>{p.id}</div>
             })}
         </div>
