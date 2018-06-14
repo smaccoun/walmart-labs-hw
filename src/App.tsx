@@ -15,6 +15,7 @@ function App(props: IProps): JSX.Element {
 
     return (
         <div>
+            <span className="title">Hi </span>
             <img style={{width: '200px', height: 'auto'}} src={logo} alt="Logo" />;
             {viewPage(viewState)}
         </div>
@@ -26,7 +27,7 @@ function viewPage(viewState: ViewState): JSX.Element {
         case ViewStateC.SEARCH_PAGE:
             return (<SearchPage />)
         case ViewStateC.PRODUCT_PAGE:
-            return (<div>PRODUCT PAGE: {viewState.product} </div>)
+            return (<div className="card">PRODUCT PAGE: {viewState.product} </div>)
     }
 }
 
