@@ -133,6 +133,7 @@ export function RemoteItemsResultView(itemResult: WebData<any>){
 interface IItem{
     itemId: number
     name: string
+    thumbnailImage: string
 }
 
 interface ISearchItem {
@@ -143,11 +144,12 @@ function itemsResultView(data: ISearchItem): JSX.Element {
     return <div>{data.items.map(item => itemResultView(item))}</div>
 }
 
-function itemResultView(item: any){
+function itemResultView(item: IItem){
     const linkUrl = "/product/" + item.itemId.toString()
     return (
-        <div>
-            <a href={linkUrl}>{item.name}</a>
+        <div className={'level'}>
+            <div className={'level-item'}><img src={item.thumbnailImage} /></div>
+            <a href={linkUrl}>{item.name} className={'level-item'}</a>
         </div>
     )
 }
