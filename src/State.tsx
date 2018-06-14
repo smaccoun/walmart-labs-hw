@@ -1,4 +1,5 @@
 import {initialSearchPage, ISearchPageState, SearchPageAction, searchPageReducer} from "./ModelActionView/SearchPage";
+import {WebData} from "./server/remote-data";
 
 export type ViewState = SearchView | ProductView
 
@@ -23,7 +24,7 @@ export interface Product{
 
 export interface IProductPage {
     featuredProduct: Product
-    recommendedProducts: Array<Product>
+    recommendedProducts: WebData<Array<Product>>
 }
 
 const INITIAL_VIEW_STATE: ViewState = initialSearchPage()
@@ -42,16 +43,30 @@ export function changeViewState(viewState: ViewState): ChangeViewState {
 
 export enum AppActionC {
    SEARCH_PAGE_MSG = 'SEARCH_PAGE_MSG',
+   PRODUCT_PAGE_MSG = 'PRODUCT_PAGE_MSG',
    CHANGE_VIEW_STATE = 'CHANGE_VIEW_STATE'
 }
 
 export type AppAction =
       ChangeViewState
     | SearchPageMsg
+    | ProductPageMsg
 
 interface SearchPageMsg {
     type: AppActionC.SEARCH_PAGE_MSG
     pageAction: SearchPageAction
+}
+
+interface ProductPageMsg {
+    type: AppActionC.PRODUCT_PAGE_MSG
+    setRecommendedResult: WebData<Array<Product>>
+}
+
+export function productPageMsg(setRecommendedResult: WebData<Array<any>>): AppAction{
+    return {
+        type: AppActionC.PRODUCT_PAGE_MSG,
+        setRecommendedResult
+    }
 }
 
 export function searchPageMsg(pageAction: SearchPageAction): AppAction{

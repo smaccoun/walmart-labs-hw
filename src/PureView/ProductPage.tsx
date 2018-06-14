@@ -1,6 +1,8 @@
 import * as React from 'react'
 import {SingleProductView} from "./SingleProduct";
 import {IProductPage, Product} from "../State";
+import {WebData} from "../server/remote-data";
+import {RemoteDataView} from "./RemoteDataView";
 
 
 export function ProductPage(props: {productModel: IProductPage}){
@@ -11,18 +13,29 @@ export function ProductPage(props: {productModel: IProductPage}){
                <div className="title">Featured</div>
                <SingleProductView product={productModel.featuredProduct}/>
            </div>
-           < RecommendationsView products={productModel.recommendedProducts}  />
+           < RecommendationsPanel products={productModel.recommendedProducts}  />
        </div>
    )
 }
 
-export function RecommendationsView(props: {products: Array<Product>}): JSX.Element {
+export function RecommendationsPanel(props: {products: WebData<Array<Product>>}): JSX.Element {
     console.log('PRODUCT: ', props.products)
     return(
         <div>
             <div className="title">Recommended</div>
-            {props.products.map(p => {
-                return <SingleProductView product={p}/>
+            {RemoteDataView(props.products, RecommendationsList)}
+        </div>
+    )
+}
+
+
+const NUM_RECOMMENDATIONS_TO_DISPLAY=8
+
+export function RecommendationsList(products: Array<Product>): JSX.Element {
+    return(
+        <div className={'columns'}>
+            {products.slice(NUM_RECOMMENDATIONS_TO_DISPLAY).map((p, i) => {
+                return <div key={i} className={'column'}>{p.id}</div>
             })}
         </div>
     )
