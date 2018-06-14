@@ -1,28 +1,22 @@
 import * as React from 'react'
 import {SingleProductView} from "./SingleProduct";
+import {IProductPage, Product} from "../State";
 
-interface IPageProps {
-    featuredProduct: any,
-    recommendedProducts: any
-}
 
-export function ProductPage(props: IPageProps){
+export function ProductPage(props: {productModel: IProductPage}){
+   const {productModel} = props
    return(
        <div>
            <div>
                <div className="title">Featured</div>
-               <SingleProductView product={props.featuredProduct}/>
+               <SingleProductView product={productModel.featuredProduct}/>
            </div>
-           < RecommendationsView products={props.recommendedProducts}  />
+           < RecommendationsView products={productModel.recommendedProducts}  />
        </div>
    )
 }
 
-interface IRecommendationProps {
-    products: Array<any>
-}
-
-export function RecommendationsView(props: IRecommendationProps): JSX.Element {
+export function RecommendationsView(props: {products: Array<Product>}): JSX.Element {
     console.log('PRODUCT: ', props.products)
     return(
         <div>

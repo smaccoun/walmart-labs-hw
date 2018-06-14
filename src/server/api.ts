@@ -13,3 +13,8 @@ export function fetchItems(term: string | null){
     const url = getUrl('posts/')
     return remoteRequest(url.toString(), defaultGetRequestHttp())
 }
+
+export function fetchRecommended(product: any){
+    const url = getUrl('posts')
+    return remoteRequest(url.toString(), defaultGetRequestHttp())
+}

@@ -14,7 +14,16 @@ interface SearchView {
 
 interface ProductView {
     type: ViewStateC.PRODUCT_PAGE
-    product: number
+    productPage: IProductPage
+}
+
+export interface Product{
+    id: number
+}
+
+export interface IProductPage {
+    featuredProduct: Product
+    recommendedProducts: Array<Product>
 }
 
 const INITIAL_VIEW_STATE: ViewState = initialSearchPage()

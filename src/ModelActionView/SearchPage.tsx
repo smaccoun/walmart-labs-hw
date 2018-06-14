@@ -105,7 +105,6 @@ interface IProps {
 
 export function SearchPageV(props: IProps): JSX.Element {
     const {curSearchTerm, setSearchTerm, searchResults} = props
-    console.log('IN VIEW! ', searchResults)
     return(
         <div>
             <form onSubmit={(e) => props.fetchSearch(e, props.curSearchTerm)} className={'columns'}>
@@ -114,8 +113,7 @@ export function SearchPageV(props: IProps): JSX.Element {
                 />
                 <input type="submit" value="Submit" className={'button'} />
             </form>
-            <div>
-                Results:
+            <div className={'container'}>
                 {RemoteItemsResultView(searchResults)}
             </div>
         </div>
@@ -123,10 +121,9 @@ export function SearchPageV(props: IProps): JSX.Element {
 }
 
 export function RemoteItemsResultView(itemResult: WebData<any>){
-    console.log('RESULT! ', itemResult)
     switch(itemResult.type){
         case RemoteDataC.NOT_ASKED:
-            return (<div>Not Asked</div>)
+            return (<div></div>)
         case RemoteDataC.LOADING:
             return (<div>Loading...</div>)
         case RemoteDataC.FAILURE:

@@ -33,7 +33,7 @@ function viewPage(viewState: ViewState): JSX.Element {
         case ViewStateC.SEARCH_PAGE:
             return (<SearchPage />)
         case ViewStateC.PRODUCT_PAGE:
-            return <ProductPage featuredProduct={viewState.product} recommendedProducts={[3,4,5,6]}/>
+            return <ProductPage productModel={viewState.productPage}/>
     }
 }
 
