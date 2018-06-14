@@ -22,9 +22,9 @@ const history = createBrowserHistory();
 const routes = {
     '/product/:id': function* usersSaga(b: {id: number}) {
         console.log(b.id)
-        const featuredProduct: Product = {id: b.id}
+        const featuredProduct: Product = {itemId: b.id, name: 'fake', thumbnailImage: 'fake'}
         yield put(productPageMsg(loading))
-        const recommendedProducts: WebData<Array<Product>> = yield call(fetchRecommended,3)
+        const recommendedProducts: WebData<Array<Product>> = yield call(fetchRecommended,b.id)
         const productPage: IProductPage = {featuredProduct, recommendedProducts}
         const productPageView: ViewState = {type: ViewStateC.PRODUCT_PAGE, productPage}
         const setProductView: ChangeViewState = changeViewState(productPageView)

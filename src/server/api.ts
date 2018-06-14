@@ -15,7 +15,7 @@ export function fetchItems(term: string | null){
     return remoteRequest(url.toString(), defaultGetRequestHttp)
 }
 
-export function fetchRecommended(product: any){
-    const url = getUrl('posts')
+export function fetchRecommended(productId: number){
+    const url = getUrl('nbp?' + API_KEY + ('&itemId=' + productId))
     return remoteRequest(url.toString(), defaultGetRequestHttp)
 }

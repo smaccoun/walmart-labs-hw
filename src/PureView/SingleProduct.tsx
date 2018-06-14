@@ -6,10 +6,10 @@ interface IProps {
 }
 
 export function SingleProductView(props: IProps): JSX.Element {
-    console.log('PRODUCT: ', props.product.id)
+    console.log('PRODUCT: ', props.product)
     return(
         <div className="card">
-            PRODUCT PAGE: {props.product.id}
+            PRODUCT PAGE: {props.product.itemId}
         </div>
         )
 }

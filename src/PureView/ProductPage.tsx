@@ -37,7 +37,7 @@ export function RecommendationsList(products: Array<Product>): JSX.Element {
     return(
         <div className={'columns'}>
             {showProducts.map((p, i) => {
-                return <div key={i} className={'column'}>{p.id}</div>
+                return <div key={i} className={'column'}>{p.name}</div>
             })}
         </div>
     )

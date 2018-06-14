@@ -19,7 +19,9 @@ interface ProductView {
 }
 
 export interface Product{
-    id: number
+    itemId: number
+    name: string
+    thumbnailImage: string
 }
 
 export interface IProductPage {
