@@ -4,6 +4,8 @@ import {IAppState, ViewState, ViewStateC} from "./State";
 import {connect} from "react-redux";
 import {SearchPage} from "./ModelActionView/SearchPage";
 
+import logo from './walmart-logo.jpg'
+
 interface IProps {
     viewState: ViewState
 }
@@ -13,6 +15,7 @@ function App(props: IProps): JSX.Element {
 
     return (
         <div>
+            <img style={{width: '200px', height: 'auto'}} src={logo} alt="Logo" />;
             {viewPage(viewState)}
         </div>
     )
