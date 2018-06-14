@@ -1,3 +1,12 @@
+# To View
+
+https://smaccoun.github.io/walmart-labs-hw
+
+**NOTE: You will need CORS enabled in your browser! **
+
+
+### Instructions
+
 Full-stack Developer Homework
 Instructions
 Using technologies of your choice, develop a single-page responsive web application to display Walmart product search results and
