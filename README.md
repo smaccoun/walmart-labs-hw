@@ -1,5 +1,7 @@
 # To View
 
+![alt text][./public/walmart-hw-demo.gif]
+
 https://smaccoun.github.io/walmart-labs-hw
 
 **NOTE: You will need CORS enabled in your browser! **
