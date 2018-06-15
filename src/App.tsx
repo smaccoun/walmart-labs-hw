@@ -17,7 +17,9 @@ function App(props: IProps): JSX.Element {
     return (
         <div>
             <header>
-                <img style={{width: '200px', height: 'auto'}} src={logo} alt="Logo" />
+                <a href="/">
+                    <img style={{width: '200px', height: 'auto'}} src={logo} alt="Logo" />
+                </a>
             </header>
             <div className={'columns is-centered'} style={{marginTop: '30px'}}>
                 <div className={'column is-four-fifths '}>

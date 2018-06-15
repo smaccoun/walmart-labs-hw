@@ -114,7 +114,7 @@ export function SearchPageV(props: IProps): JSX.Element {
                 <input value={curSearchTerm ? curSearchTerm : ''} onChange={setSearchTerm}
                        className={'input '}
                 />
-                <input type="submit" value="Submit" className={'button'} />
+                <input type="submit" value="Search" className={'button'} />
             </form>
             <div className={'container'}>
                 {RemoteItemsResultView(searchResults)}
