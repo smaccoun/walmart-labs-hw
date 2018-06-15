@@ -1,8 +1,15 @@
-# To View
+# Demo
 
-![Alt Text](https://github.com/smaccoun/walmart-labs-hw/raw/master/public/walmart-hw-demo.gif
+![Alt Text](./public/walmart-hw-demo.gif)
 
+# Run Instructions
 
+To run locally:
+```
+git clone git@github.com:smaccoun/walmart-labs-hw.git
+cd walmart-labs-hw
+yarn start
+```
 
 ### Instructions
 
