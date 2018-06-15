@@ -21,6 +21,8 @@ interface ProductView {
 export interface Product{
     itemId: number
     name: string
+    shortDescription: string
+    salePrice: number
     thumbnailImage: string
 }
 

@@ -1,5 +1,5 @@
 import {defaultGetRequestHttp, remoteRequest} from "./request";
-import {notAsked} from "./remote-data";
+import {notAsked, WebData} from "./remote-data";
 const queryString = require('query-string');
 
 const BASE_URL = new URL('https://api.walmartlabs.com/v1/')
@@ -12,11 +12,19 @@ interface IFetchInfo {
     params: null | Object
 }
 
-const productUrl = (producId: number): IFetchInfo => {
-    return {
-        endpoint: `items/${producId.toString()}`,
-        params: null
+const productUrl = (items: Array<number>): IFetchInfo => {
+    if(items.length == 1){
+        return {
+            endpoint: `items/${items[0]}`,
+            params: null
+        }
+    }else{
+        return {
+            endpoint: 'items',
+            params: {ids: items}
+        }
     }
+
 }
 
 const searchUrl = (query: string) => {
@@ -45,13 +53,13 @@ export function getUrl(fetchInfo: IFetchInfo): URL {
 }
 
 export function fetchItem(itemId: number){
-    const url = getUrl(productUrl(itemId))
+    const url = getUrl(productUrl([itemId]))
     return remoteRequest(url.toString(), defaultGetRequestHttp)
 }
 
-export function fetchSearch(term: string | null){
+export function fetchSearch(term: string | null): Promise<WebData<any>>{
     if(term == null){
-        return notAsked
+        return Promise.resolve(notAsked)
     }else{
         const url = getUrl(searchUrl(term))
         return remoteRequest(url.toString(), defaultGetRequestHttp)

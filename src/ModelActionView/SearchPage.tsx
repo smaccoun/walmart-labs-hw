@@ -109,7 +109,7 @@ export function SearchPageV(props: IProps): JSX.Element {
     console.log(searchResults)
     return(
         <div>
-            <form onSubmit={(e) => props.fetchSearch(e, props.curSearchTerm)} className={'columns'}>
+            <form onSubmit={(e) => props.fetchSearch(e, props.curSearchTerm)} className={'columns is-mobile'} style={{padding: '24px'}}>
                 <input value={curSearchTerm ? curSearchTerm : ''} onChange={setSearchTerm}
                        className={'input '}
                 />
@@ -134,6 +134,8 @@ interface IItem{
     itemId: number
     name: string
     thumbnailImage: string
+    shortDescription: string
+    salePrice: number
 }
 
 interface ISearchItem {
@@ -148,8 +150,19 @@ function itemResultView(item: IItem){
     const linkUrl = "product/" + item.itemId.toString()
     return (
         <div className={'level'}>
-            <div className={'level-item'}><img src={item.thumbnailImage} /></div>
-            <a href={linkUrl}>{item.name} className={'level-item'}</a>
+            <div className={'level-item'} style={{maxWidth: '100px'}}>
+                <img src={item.thumbnailImage} />
+            </div>
+            <div className={'columns is-mobile'}>
+                <div className={'column'} style={{marginLeft: '24px'}}>
+                    <a href={linkUrl}>{item.name} className={'level-item'}</a>
+                    <div>{`${item.shortDescription.slice(0, 100)}...`}</div>
+                </div>
+                <div style={{width: '80px'}} className={'level-item'}>
+                    {`\$${item.salePrice.toString()}`}
+                </div>
+
+            </div>
         </div>
     )
 }
