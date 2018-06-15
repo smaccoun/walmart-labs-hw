@@ -1,8 +1,9 @@
 import * as React from 'react'
-import {SingleProductView} from "./SingleProduct";
+import {getProductLinkUrl, SingleProductView} from "./SingleProduct";
 import {IProductPage, Product} from "../State";
 import {WebData} from "../server/remote-data";
 import {RemoteDataView} from "./RemoteDataView";
+import * as R from 'ramda'
 
 
 export function ProductPage(props: {productModel: IProductPage}){
@@ -31,14 +32,23 @@ export function RecommendationsPanel(props: {products: WebData<Array<Product>>})
 
 const NUM_RECOMMENDATIONS_TO_DISPLAY = 8
 
-export function RecommendationsList(products: Array<Product>): JSX.Element {
-    const showProducts = products.slice(0, NUM_RECOMMENDATIONS_TO_DISPLAY)
-    console.log(showProducts)
+export function RecommendationsList(products: Array<any>): JSX.Element {
+    console.log(products)
+    if(R.has('errors')(products) || R.type(products) != 'Array'){
+        return (<div>No recommended results</div>)
+    }else{
+        const showProducts = products.slice(0, NUM_RECOMMENDATIONS_TO_DISPLAY)
+        console.log(showProducts)
+        return(
+            <div className={'columns'}>
+                {showProducts.map((item, i) => RecommendedProduct(item, i))}
+            </div>
+        )
+    }
+}
+
+function RecommendedProduct(item: Product, key: number): JSX.Element{
     return(
-        <div className={'columns'}>
-            {showProducts.map((p, i) => {
-                return <div key={i} className={'column'}>{p.name}</div>
-            })}
-        </div>
+        <a className={'column level-item'} key={key} href={getProductLinkUrl(item)}>{item.name} </a>
     )
 }

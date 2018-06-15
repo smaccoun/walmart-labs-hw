@@ -24,6 +24,10 @@
   version "10.3.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.2.tgz#3840ec6c12556fdda6e0e6d036df853101d732a4"
 
+"@types/ramda@^0.25.33":
+  version "0.25.33"
+  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.25.33.tgz#a134fde6da3be303a1bdefd9155d8365bb7b14ec"
+
 "@types/react-dom@^16.0.6":
   version "16.0.6"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.6.tgz#f1a65a4e7be8ed5d123f8b3b9eacc913e35a1a3c"
@@ -5936,6 +5940,10 @@ raf@3.4.0:
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.0.tgz#a28876881b4bc2ca9117d4138163ddb80f781575"
   dependencies:
     performance-now "^2.1.0"
+
+ramda@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
 
 randomatic@^3.0.0:
   version "3.0.0"

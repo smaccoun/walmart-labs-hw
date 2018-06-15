@@ -2,8 +2,13 @@ import * as React from 'react'
 import {Product} from "../State";
 
 
+export const getProductLinkUrl = (item: Product) => {
+    return "/product/" + item.itemId.toString()
+}
+
+
 export function SingleProductView(item: Product): JSX.Element {
-    const linkUrl = "product/" + item.itemId.toString()
+    const linkUrl = getProductLinkUrl(item)
     return (
         <div className={'level columns'}>
             <div className={'level-item column'} style={{maxWidth: '100px'}}>
