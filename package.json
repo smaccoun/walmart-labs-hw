@@ -19,6 +19,7 @@
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
     "react-scripts-ts": "2.16.0",
+    "react-spinners": "^0.3.2",
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0",
     "redux-saga-router": "^2.2.0",
