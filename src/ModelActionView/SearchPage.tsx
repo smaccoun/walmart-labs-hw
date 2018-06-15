@@ -144,7 +144,11 @@ interface ISearchItem {
 
 }
 function itemsResultView(data: ISearchItem): JSX.Element {
-    return <div>{data.items.map(item => SingleProductView(item))}</div>
+    if(data.items && data.items.length > 0){
+      return <div>{data.items.map(item => SingleProductView(item))}</div>
+    } else{
+        return <div>No search results found</div>
+    }
 }
 
 
