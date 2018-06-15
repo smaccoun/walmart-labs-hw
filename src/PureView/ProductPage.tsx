@@ -10,7 +10,7 @@ export function ProductPage(props: {productModel: IProductPage}){
    const {productModel} = props
    return(
        <div>
-           <div>
+           <div style={{marginBottom: '36px'}}>
                <div className="title">Featured</div>
                {RemoteDataView(productModel.featuredProduct, SingleProductView)}
            </div>
@@ -49,6 +49,11 @@ export function RecommendationsList(products: Array<any>): JSX.Element {
 
 function RecommendedProduct(item: Product, key: number): JSX.Element{
     return(
-        <a className={'column level-item'} key={key} href={getProductLinkUrl(item)}>{item.name} </a>
+            <a key={key} href={getProductLinkUrl(item)} className={'card column'}>
+                <div className={'level'}>
+                    <img src={item.thumbnailImage} />
+                </div>
+                <div className={'level'}>{item.name}</div>
+            </a>
     )
 }
