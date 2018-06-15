@@ -7,6 +7,7 @@ import {call, put, take} from "redux-saga/effects";
 import {fetchSearch} from "../server/api";
 import {loading, notAsked, WebData} from "../server/remote-data";
 import {RemoteDataView} from "../PureView/RemoteDataView";
+import {SingleProductView} from "../PureView/SingleProduct";
 
 /* STATE */
 
@@ -143,29 +144,9 @@ interface ISearchItem {
 
 }
 function itemsResultView(data: ISearchItem): JSX.Element {
-    return <div>{data.items.map(item => itemResultView(item))}</div>
+    return <div>{data.items.map(item => SingleProductView(item))}</div>
 }
 
-function itemResultView(item: IItem){
-    const linkUrl = "product/" + item.itemId.toString()
-    return (
-        <div className={'level'}>
-            <div className={'level-item'} style={{maxWidth: '100px'}}>
-                <img src={item.thumbnailImage} />
-            </div>
-            <div className={'columns is-mobile'}>
-                <div className={'column'} style={{marginLeft: '24px'}}>
-                    <a href={linkUrl}>{item.name} className={'level-item'}</a>
-                    <div>{`${item.shortDescription.slice(0, 100)}...`}</div>
-                </div>
-                <div style={{width: '80px'}} className={'level-item'}>
-                    {`\$${item.salePrice.toString()}`}
-                </div>
-
-            </div>
-        </div>
-    )
-}
 
 
 /* STATE CONSTRUCTORS */
