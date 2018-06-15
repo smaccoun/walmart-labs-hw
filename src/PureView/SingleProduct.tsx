@@ -12,7 +12,7 @@ export function SingleProductView(item: Product): JSX.Element {
     return (
         <div className={'level columns'}>
             <div className={'level-item column'} style={{maxWidth: '100px'}}>
-                <img src={item.thumbnailImage} />
+                <a href={linkUrl}><img src={item.thumbnailImage} /></a>
             </div>
             <div className={'column columns is-mobile'}>
                 <div className={'column'}>
